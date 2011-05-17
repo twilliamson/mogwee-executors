@@ -1,0 +1,27 @@
+= Mogwee Executors, making executors more debuggable
+
+Mogwee Executors contains a few classes designed to replace the executors built in to Java.  Java's standard executors silently fail if an uncaught RuntimeException is thrown.  Even worse, a ScheduledExecutorService will silently cancel all future executions of a task that has such an exception.
+
+While there are many simpler ways which seem like they should work (e.g., Thread.UncaughtExceptionHandler or creating a ThreadFactory that wraps a Runnable within another Runnable that's got a try/catch), they don't, mostly due to ScheduledExecutorService already having wrapped the Runnable before anything else can.  If you think you have a simpler or better way of producing the same behavior, the TestExecutors unit test should provide a quick and easy way of checking whether the approach actually works.
+
+In addition to exception logging, Mogwee Executors also ensures the threads created by executors it returns have some base name you specified when creating the executor.  This is always a good idea and can be of great help when analyzing thread dumps.
+
+
+== Usage
+
+Just use com.mogwee.executors.Executors in the same way you would use java.util.concurrent.Executors.
+
+
+== Dependencies
+
+Mogwee Logging depends on Log4J, which is available in pretty much every Maven repository.
+
+
+== Build
+
+    mvn install
+
+
+== License
+
+See COPYING file.
