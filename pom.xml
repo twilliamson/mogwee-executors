@@ -17,7 +17,7 @@
     <dependencies>
         <dependency>
             <groupId>com.mogwee</groupId>
-            <artifactId>logging</artifactId>
+            <artifactId>mogwee-logging</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
 
