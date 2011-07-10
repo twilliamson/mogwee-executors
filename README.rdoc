@@ -12,16 +12,6 @@ In addition to exception logging, Mogwee Executors also ensures the threads crea
 Just use com.mogwee.executors.Executors in the same way you would use java.util.concurrent.Executors.
 
 
-== Dependencies
-
-Mogwee Logging depends on Log4J, which is available in pretty much every Maven repository.
-
-
-== Build
-
-    mvn install
-
-
 == License (see COPYING file for full license)
 
 Copyright 2011 Ning, Inc.
