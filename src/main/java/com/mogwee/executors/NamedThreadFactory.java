@@ -19,6 +19,10 @@ package com.mogwee.executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * Factory that sets the name of each thread it creates to {@code [name]-[id]}.
+ * This makes debugging stack traces much easier.
+ */
 public class NamedThreadFactory implements ThreadFactory
 {
     private final AtomicInteger count = new AtomicInteger(0);

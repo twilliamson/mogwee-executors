@@ -31,7 +31,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 /**
- * Similar to Java's, but ensures either a {@link LoggingExecutor} or named {@link FailsafeScheduledExecutor} is used.
+ * Similar to Java's {@link java.util.concurrent.Executors}, but ensures either a {@link LoggingExecutor} or named {@link FailsafeScheduledExecutor} is used.
  */
 public class Executors
 {
@@ -52,7 +52,7 @@ public class Executors
 
     public static ScheduledExecutorService newSingleThreadScheduledExecutor(String name)
     {
-        return new DelegatedScheduledExecutorService(new FailsafeScheduledExecutor(1, name));
+        return new DelegatedScheduledExecutorService(new FailsafeScheduledExecutor(name));
     }
 
     public static ScheduledExecutorService newScheduledThreadPool(int corePoolSize, String name)
