@@ -56,69 +56,50 @@ public class FailsafeScheduledExecutor extends ScheduledThreadPoolExecutor
     @Override
     public <T> Future<T> submit(Callable<T> task)
     {
-        return super.submit(task);
+        return super.submit(WrappedCallable.wrap(LOG, task));
     }
 
     @Override
     public <T> Future<T> submit(Runnable task, T result)
     {
-        return super.submit(wrapRunnable(task), result);
+        // HACK: assumes ScheduledThreadPoolExecutor will create a callable and call schedule()
+        // (can't wrap the runnable here or exception isn't re-thrown when Future.get() is called)
+        return super.submit(task, result);
     }
 
     @Override
     public Future<?> submit(Runnable task)
     {
-        return super.submit(wrapRunnable(task));
+        return super.submit(WrappedRunnable.wrap(LOG, task));
     }
 
     @Override
     public void execute(Runnable command)
     {
-        super.execute(wrapRunnable(command));
+        super.execute(WrappedRunnable.wrap(LOG, command));
     }
 
     @Override
     public ScheduledFuture<?> scheduleWithFixedDelay(Runnable command, long initialDelay, long delay, TimeUnit unit)
     {
-        return super.scheduleWithFixedDelay(wrapRunnable(command), initialDelay, delay, unit);
+        return super.scheduleWithFixedDelay(WrappedRunnable.wrap(LOG, command), initialDelay, delay, unit);
     }
 
     @Override
     public ScheduledFuture<?> scheduleAtFixedRate(Runnable command, long initialDelay, long period, TimeUnit unit)
     {
-        return super.scheduleAtFixedRate(wrapRunnable(command), initialDelay, period, unit);
+        return super.scheduleAtFixedRate(WrappedRunnable.wrap(LOG, command), initialDelay, period, unit);
     }
 
     @Override
     public <V> ScheduledFuture<V> schedule(Callable<V> callable, long delay, TimeUnit unit)
     {
-        return super.schedule(callable, delay, unit);
+        return super.schedule(WrappedCallable.wrap(LOG, callable), delay, unit);
     }
 
     @Override
     public ScheduledFuture<?> schedule(Runnable command, long delay, TimeUnit unit)
     {
-        return super.schedule(wrapRunnable(command), delay, unit);
-    }
-
-    private Runnable wrapRunnable(final Runnable runnable)
-    {
-        return new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                Thread currentThread = Thread.currentThread();
-
-                try {
-                    runnable.run();
-                }
-                catch (Throwable e) {
-                    LOG.errorf(e, "%s ended abnormally with an exception", currentThread);
-                }
-
-                LOG.debugf("%s finished executing (%s interrupted)", currentThread, currentThread.isInterrupted() ? "was" : "was not");
-            }
-        };
+        return super.schedule(WrappedRunnable.wrap(LOG, command), delay, unit);
     }
 }

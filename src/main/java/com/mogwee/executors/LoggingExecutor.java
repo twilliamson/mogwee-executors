@@ -56,52 +56,26 @@ public class LoggingExecutor extends ThreadPoolExecutor
     @Override
     public <T> Future<T> submit(Callable<T> task)
     {
-        return super.submit(task);
+        return super.submit(WrappedCallable.wrap(LOG, task));
     }
 
     @Override
     public <T> Future<T> submit(Runnable task, T result)
     {
-        return super.submit(wrapRunnable(task), result);
+        // HACK: assumes ThreadPoolExecutor will create a callable and call execute()
+        // (can't wrap the runnable here or exception isn't re-thrown when Future.get() is called)
+        return super.submit(task, result);
     }
 
     @Override
     public Future<?> submit(Runnable task)
     {
-        return super.submit(wrapRunnable(task));
+        return super.submit(WrappedRunnable.wrap(LOG, task));
     }
 
     @Override
     public void execute(Runnable command)
     {
-        super.execute(wrapRunnable(command));
-    }
-
-    private Runnable wrapRunnable(final Runnable runnable)
-    {
-        return new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                Thread currentThread = Thread.currentThread();
-
-                try {
-                    runnable.run();
-                }
-                catch (RuntimeException e) {
-                    LOG.errorf(e, "%s ended abnormally with an exception", currentThread);
-
-                    throw e;
-                }
-                catch (Error e) {
-                    LOG.errorf(e, "%s ended abnormally with an exception", currentThread);
-
-                    throw e;
-                }
-
-                LOG.debugf("%s finished executing (%s interrupted)", currentThread, currentThread.isInterrupted() ? "was" : "was not");
-            }
-        };
+        super.execute(WrappedRunnable.wrap(LOG, command));
     }
 }
