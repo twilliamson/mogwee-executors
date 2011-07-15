@@ -16,7 +16,8 @@
 
 package com.mogwee.executors;
 
-import com.mogwee.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
@@ -30,7 +31,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class FailsafeScheduledExecutor extends ScheduledThreadPoolExecutor
 {
-    private static final Logger LOG = Logger.getLogger();
+    private static final Logger LOG = LoggerFactory.getLogger(FailsafeScheduledExecutor.class);
 
     /**
      * Creates a new single-threaded executor with a {@link NamedThreadFactory} of the given name.

@@ -16,7 +16,8 @@
 
 package com.mogwee.executors;
 
-import com.mogwee.logging.Logger;
+
+import org.slf4j.Logger;
 
 import java.util.concurrent.Callable;
 
@@ -46,17 +47,17 @@ class WrappedCallable<T> implements Callable<T>
         }
         catch (Exception e) {
             // since callables are expected to sometimes throw exceptions, log this at DEBUG instead of ERROR
-            log.debugf(e, "%s ended with an exception", currentThread);
+            log.debug(currentThread + " ended with an exception", e);
 
             throw e;
         }
         catch (Error e) {
-            log.errorf(e, "%s ended with an exception", currentThread);
+            log.error(currentThread + " ended with an exception", e);
 
             throw e;
         }
         finally {
-            log.debugf("%s finished executing", currentThread);
+            log.debug("{} finished executing", currentThread);
         }
     }
 }

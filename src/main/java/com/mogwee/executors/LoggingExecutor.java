@@ -16,7 +16,8 @@
 
 package com.mogwee.executors;
 
-import com.mogwee.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
@@ -31,7 +32,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class LoggingExecutor extends ThreadPoolExecutor
 {
-    private static final Logger LOG = Logger.getLogger();
+    private static final Logger LOG = LoggerFactory.getLogger(LoggingExecutor.class);
 
     public LoggingExecutor(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit, BlockingQueue<Runnable> workQueue)
     {
