@@ -11,6 +11,32 @@ In addition to exception logging, Mogwee Executors also ensures the threads crea
 
 Just use com.mogwee.executors.Executors in the same way you would use java.util.concurrent.Executors.
 
+Mogwee Executors relies on SLF4J for logging.  This means you must configure SLF4J to use your logging framework.  For example, to log to System.err, you would add the following to your pom.xml dependencies:
+	<dependency>
+		<groupId>org.slf4j</groupId>
+		<artifactId>slf4j-simple</artifactId>
+		<version>1.5.6</version>
+	</dependency>
+If, on the other hand, you wanted to use Log4J for all your logging, you would instead add the following to your pom.xml depedencies:
+	<dependency>
+		<groupId>org.slf4j</groupId>
+		<artifactId>slf4j-log4j12</artifactId>
+		<version>1.5.6</version>
+	</dependency>
+	<dependency>
+		<groupId>log4j</groupId>
+		<artifactId>log4j</artifactId>
+		<version>1.2.16</version>
+	</dependency>
+
+See http://www.slf4j.org/manual.html#binding for more details and options.
+
+
+== Version History
+
+1.1.0:
+- Use SLF4J instead of Mogwee Logging.
+
 
 == License (see COPYING file for full license)
 
