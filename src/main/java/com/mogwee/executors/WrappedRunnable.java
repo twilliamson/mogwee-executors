@@ -16,7 +16,7 @@
 
 package com.mogwee.executors;
 
-import com.mogwee.logging.Logger;
+import org.slf4j.Logger;
 
 class WrappedRunnable implements Runnable
 {
@@ -43,9 +43,9 @@ class WrappedRunnable implements Runnable
             runnable.run();
         }
         catch (Throwable e) {
-            log.errorf(e, "%s ended abnormally with an exception", currentThread);
+            log.error(currentThread + " ended abnormally with an exception", e);
         }
 
-        log.debugf("%s finished executing", currentThread);
+        log.debug("{} finished executing", currentThread);
     }
 }
