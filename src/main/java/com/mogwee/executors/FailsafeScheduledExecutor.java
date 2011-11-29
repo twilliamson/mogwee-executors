@@ -23,6 +23,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -51,7 +52,18 @@ public class FailsafeScheduledExecutor extends ScheduledThreadPoolExecutor
      */
     public FailsafeScheduledExecutor(int corePoolSize, String name)
     {
-        super(corePoolSize, new NamedThreadFactory(name));
+        this(corePoolSize, new NamedThreadFactory(name));
+    }
+
+    /**
+     * Creates a new executor with the given thread factory.
+     *
+     * @param corePoolSize number of threads in the pool
+     * @param threadFactory a thread factory to use
+     */
+    public FailsafeScheduledExecutor(int corePoolSize, ThreadFactory threadFactory)
+    {
+        super(corePoolSize, threadFactory);
     }
 
     @Override

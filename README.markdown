@@ -37,6 +37,9 @@ See http://www.slf4j.org/manual.html#binding for more details and options.
 
 ## Version History
 
+### 1.2.0:
+* Add constructor to FailsafeScheduledExecutor that allows custom ThreadFactory to be used (by request of tomdz).
+
 ### 1.1.0:
 * Use SLF4J instead of Mogwee Logging.
 
