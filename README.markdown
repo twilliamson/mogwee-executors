@@ -7,6 +7,15 @@ While there are many simpler ways which seem like they should work (e.g., `Threa
 In addition to exception logging, Mogwee Executors also ensures the threads created by executors it returns have some base name you specified when creating the executor.  This is always a good idea and can be of great help when analyzing thread dumps.
 
 
+## Maven Info
+
+	<dependency>
+		<groupId>com.mogwee</groupId>
+		<artifactId>mogwee-executors</artifactId>
+		<version>1.2.0</version>
+	</dependency>
+
+
 ## Usage
 
 Just use `com.mogwee.executors.Executors` in the same way you would use `java.util.concurrent.Executors`.
