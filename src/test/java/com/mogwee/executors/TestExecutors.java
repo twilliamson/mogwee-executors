@@ -74,7 +74,14 @@ public class TestExecutors
             }
         });
 
-        Assert.assertNull(future.get());
+        try {
+            future.get();
+            Assert.fail("Expected exception");
+        }
+        catch (ExecutionException e) {
+            Assert.assertEquals(e.getCause().toString(), "java.lang.RuntimeException: Fail!");
+        }
+
         future = executorService.submit(new Runnable()
         {
             @Override

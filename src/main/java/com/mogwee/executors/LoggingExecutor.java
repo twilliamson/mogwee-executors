@@ -63,15 +63,19 @@ public class LoggingExecutor extends ThreadPoolExecutor
     @Override
     public <T> Future<T> submit(Runnable task, T result)
     {
-        // HACK: assumes ThreadPoolExecutor will create a callable and call execute()
-        // (can't wrap the runnable here or exception isn't re-thrown when Future.get() is called)
-        return super.submit(task, result);
+        WrappedRunnable runnable = WrappedRunnable.wrap(LOG, task);
+        Future<T> future = super.submit(runnable, result);
+
+        return WrappedRunnableFuture.wrap(runnable, future);
     }
 
     @Override
     public Future<?> submit(Runnable task)
     {
-        return super.submit(WrappedRunnable.wrap(LOG, task));
+        WrappedRunnable runnable = WrappedRunnable.wrap(LOG, task);
+        Future<?> future = super.submit(runnable);
+
+        return WrappedRunnableFuture.wrap(runnable, future);
     }
 
     @Override

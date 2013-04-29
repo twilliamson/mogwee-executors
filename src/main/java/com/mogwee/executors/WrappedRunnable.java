@@ -23,15 +23,22 @@ class WrappedRunnable implements Runnable
     private final Logger log;
     private final Runnable runnable;
 
+    private volatile Throwable exception;
+
     private WrappedRunnable(Logger log, Runnable runnable)
     {
         this.log = log;
         this.runnable = runnable;
     }
 
-    public static Runnable wrap(Logger log, Runnable runnable)
+    public static WrappedRunnable wrap(Logger log, Runnable runnable)
     {
-        return runnable instanceof WrappedRunnable ? runnable : new WrappedRunnable(log, runnable);
+        return runnable instanceof WrappedRunnable ? (WrappedRunnable) runnable : new WrappedRunnable(log, runnable);
+    }
+
+    Throwable getException()
+    {
+        return exception;
     }
 
     @Override
@@ -44,6 +51,7 @@ class WrappedRunnable implements Runnable
         }
         catch (Throwable e) {
             log.error(currentThread + " ended abnormally with an exception", e);
+            exception = e;
         }
 
         log.debug("{} finished executing", currentThread);
