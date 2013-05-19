@@ -46,6 +46,9 @@ See http://www.slf4j.org/manual.html#binding for more details and options.
 
 ## Version History
 
+### 1.2.1:
+* Fix Future returned by submit(Runnable) returning null on failure instead of re-throwing exception.
+
 ### 1.2.0:
 * Add constructor to FailsafeScheduledExecutor that allows custom ThreadFactory to be used (by request of tomdz).
 
